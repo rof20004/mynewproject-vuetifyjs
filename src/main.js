@@ -9,6 +9,7 @@ import router from './router'
 import store from './store'
 import moment from 'moment'
 import DateFilter from './filters/date'
+import * as firebase from 'firebase'
 
 Vue.use(Vuetify, {
   theme: {
@@ -34,5 +35,16 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  created () {
+    var config = {
+      apiKey: 'AIzaSyBgd6aoAljMCflW56-me7EH_1wJfMkmL5k',
+      authDomain: 'meetups-vuejs.firebaseapp.com',
+      databaseURL: 'https://meetups-vuejs.firebaseio.com',
+      projectId: 'meetups-vuejs',
+      storageBucket: 'meetups-vuejs.appspot.com',
+      messagingSenderId: '222708983648'
+    }
+    firebase.initializeApp(config)
+  }
 })
