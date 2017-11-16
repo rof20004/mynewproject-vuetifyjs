@@ -10,6 +10,7 @@ import store from './store'
 import moment from 'moment'
 import DateFilter from './filters/date'
 import * as firebase from 'firebase'
+import Alert from './components/Shared/Alert.vue'
 
 Vue.use(Vuetify, {
   theme: {
@@ -24,6 +25,7 @@ Vue.use(Vuetify, {
 })
 
 Vue.filter('date', DateFilter)
+Vue.component('app-alert', Alert)
 
 Vue.config.productionTip = false
 
@@ -46,5 +48,11 @@ new Vue({
       messagingSenderId: '222708983648'
     }
     firebase.initializeApp(config)
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.$store.dispatch('autoSignIn', user)
+      }
+    })
+    this.$store.dispatch('loadMeetups')
   }
 })
