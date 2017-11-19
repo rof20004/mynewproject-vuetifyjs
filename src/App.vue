@@ -5,8 +5,7 @@
         <v-list-tile 
                     v-for="item in menuItems" 
                     :key="item.title"
-                    :to="item.link"
-                    exact>
+                    :to="item.link">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -33,8 +32,7 @@
               flat 
               v-for="item in menuItems" 
               :key="item.title" 
-              :to="item.link"
-              exact>
+              :to="item.link">
           <v-icon left dark>{{ item.icon }}</v-icon>
           {{ item.title }}
         </v-btn>

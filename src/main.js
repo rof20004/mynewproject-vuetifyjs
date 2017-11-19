@@ -11,6 +11,7 @@ import moment from 'moment'
 import DateFilter from './filters/date'
 import * as firebase from 'firebase'
 import Alert from './components/Shared/Alert.vue'
+import EditMeetupDetailsDialog from './components/Meetup/Edit/EditMeetupDetailsDialog.vue'
 
 Vue.use(Vuetify, {
   theme: {
@@ -26,6 +27,7 @@ Vue.use(Vuetify, {
 
 Vue.filter('date', DateFilter)
 Vue.component('app-alert', Alert)
+Vue.component('app-edit-meetup-details-dialog', EditMeetupDetailsDialog)
 
 Vue.config.productionTip = false
 
