@@ -1,14 +1,8 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
 import * as firebase from 'firebase'
 
-Vue.use(Vuex)
-
-const store = new Vuex.Store({
+export default {
   state: {
-    user: null,
-    loading: false,
-    error: null
+    user: null
   },
   mutations: {
     registerUserForMeetup (state, payload) {
@@ -21,20 +15,11 @@ const store = new Vuex.Store({
     },
     unregisterUserForMeetup (state, payload) {
       const registeredMeetups = state.user.registeredMeetups
-      registeredMeetups.splice(registeredMeetups.findIndex(meetup => meetup.id === payload), 1)
+      registeredMeetups.splice(registeredMeetups.findIndex(meetup => meetup === payload), 1)
       Reflect.deleteProperty(state.user.fbKeys, payload)
     },
     setUser (state, payload) {
       state.user = payload
-    },
-    setLoading (state, payload) {
-      state.loading = payload
-    },
-    setError (state, payload) {
-      state.error = payload
-    },
-    clearError (state) {
-      state.error = null
     }
   },
   actions: {
@@ -52,8 +37,8 @@ const store = new Vuex.Store({
         return
       }
       const fbKey = user.fbKeys[payload]
-      firebase.database().ref(`users/${user.id}/registrations`).child(fbKey).remove()
-        .then(() => commit('unregisterUserForMeetup'))
+      firebase.database().ref(`/users/${user.id}/registrations/`).child(fbKey).remove()
+        .then(() => commit('unregisterUserForMeetup', payload))
         .catch(error => console.log(error))
         .then(() => commit('setLoading', false))
     },
@@ -93,9 +78,6 @@ const store = new Vuex.Store({
         })
         .then(() => commit('setLoading', false))
     },
-    clearError ({ commit }) {
-      commit('clearError')
-    },
     autoSignIn ({ commit }, payload) {
       commit('setUser', { id: payload.uid, registeredMeetups: [], fbKeys: {} })
     },
@@ -112,7 +94,7 @@ const store = new Vuex.Store({
           let swappedPairs = {}
           for (let key in dataPairs) {
             registeredMeetups.push(dataPairs[key])
-            swappedPairs[dataPairs] = key
+            swappedPairs[dataPairs[key]] = key
           }
           const updatedUser = {
             id: getters.user.id,
@@ -128,14 +110,6 @@ const store = new Vuex.Store({
   getters: {
     user (state) {
       return state.user
-    },
-    loading (state) {
-      return state.loading
-    },
-    error (state) {
-      return state.error
     }
   }
-})
-
-export default store
+}

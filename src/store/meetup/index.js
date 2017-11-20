@@ -1,27 +1,12 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
 import * as firebase from 'firebase'
 
-Vue.use(Vuex)
-
-const store = new Vuex.Store({
+export default {
   state: {
-    loadedMeetups: [],
-    loading: false,
-    error: null
+    loadedMeetups: []
   },
   mutations: {
     createMeetup (state, payload) {
       state.loadedMeetups.push(payload)
-    },
-    setLoading (state, payload) {
-      state.loading = payload
-    },
-    setError (state, payload) {
-      state.error = payload
-    },
-    clearError (state) {
-      state.error = null
     },
     setLoadedMeetups (state, payload) {
       state.loadedMeetups = payload
@@ -97,9 +82,6 @@ const store = new Vuex.Store({
           console.log(error)
         })
     },
-    clearError ({ commit }) {
-      commit('clearError')
-    },
     updateMeetupData ({ commit }, payload) {
       commit('setLoading', true)
       const updateObj = {}
@@ -127,14 +109,6 @@ const store = new Vuex.Store({
     },
     loadedMeetup (state) {
       return (meetupId) => state.loadedMeetups.find(meetup => meetup.id === meetupId)
-    },
-    loading (state) {
-      return state.loading
-    },
-    error (state) {
-      return state.error
     }
   }
-})
-
-export default store
+}
